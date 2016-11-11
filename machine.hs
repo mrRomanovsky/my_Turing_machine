@@ -1,9 +1,8 @@
 import Data.Map as Map
 import Data.List as List
+import Tape
 
-data Tape = Tape String String
 data Dir = LeftSh | RightSh | Stay
-type Alphabet = Char
 type State = Int
 type Shift = Dir
 
@@ -19,7 +18,9 @@ writeSymb :: Tape -> Char -> Tape
 writeSymb (Tape ls (_ : rs)) symb = Tape ls (symb : rs)
 
 
-turingMachine :: Map.Map (Alphabet, State) (Alphabet, State, Shift) -> (Tape, State) -> Tape
+
+
+turingMachine :: Map.Map (Symbol, State) (Symbol, State, Shift) -> (Tape, State) -> Tape
 turingMachine program (tape,state) = fst $ last $ List.unfoldr foldFunc (tape, state)
     where
           foldFunc (tape, state) =
