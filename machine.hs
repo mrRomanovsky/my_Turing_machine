@@ -11,14 +11,14 @@ type Shift = Dir
 
 shift :: Tape -> Dir -> Tape
 shift tape Stay = tape
-shift (Tape leftPart rightPart) RightSh = Tape (leftPart ++ [head rightPart]) (tail rightPart)
-shift (Tape leftPart rightPart) LeftSh = Tape (init leftPart) (last leftPart : rightPart)
+shift (Tape leftPart (r : rs)) RightSh = Tape (r : leftPart) (rs)
+shift (Tape (l : ls) rightPart) LeftSh = Tape ls (l : rightPart)
 
 getSymb :: Tape -> Char
-getSymb (Tape leftPart rightPart) = head rightPart
+getSymb (Tape leftPart (r : rs)) = r
 
 writeSymb :: Tape -> Char -> Tape
-writeSymb (Tape leftPart rightPart) symb = Tape leftPart (symb : tail rightPart)
+writeSymb (Tape leftPart (r : rs)) symb = Tape leftPart (symb : rs)
 
 
 turingMachine :: Map.Map (Alphabet, State) (Alphabet, State, Shift) -> (Tape, State) -> Tape
