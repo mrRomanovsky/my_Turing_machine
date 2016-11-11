@@ -1,31 +1,32 @@
 module Tape
 (Tape
-,Dir
+,Dir(..)
 ,State
-,Shift
+,getSymb
+,writeSymb
+,shift
 ,getWord
 ,createTape)where
 
 data Dir = LeftSh | RightSh | Stay
-data Tape = Tape String String
+data Tape = Tape String String Char
 type State = Int
-type Shift = Dir
 
 createTape :: String -> Char -> Tape
-createTape word emptySymb = Tape bs (word ++ bs)
+createTape word blank = Tape bs (word ++ bs) blank
     where
-      bs = [emptySymb, emptySymb..]
+      bs = repeat blank
 
 getWord :: Tape -> Char -> String
-getWord (Tape ls rs) s = (takeWhile (/=s) ls ) ++ (takeWhile (/=s) rs)
+getWord (Tape ls rs b) s = reverse (takeWhile (/=b) ls ) ++ (takeWhile (/=b) rs)
 
 shift :: Tape -> Dir -> Tape
 shift tape Stay = tape
-shift (Tape ls (r : rs)) RightSh = Tape (r : ls) rs
-shift (Tape (l : ls) rs) LeftSh = Tape ls (l : rs)
+shift (Tape ls (r : rs) b) RightSh = Tape (r : ls) rs b
+shift (Tape (l : ls) rs b) LeftSh = Tape ls (l : rs) b
 
 getSymb :: Tape -> Char
-getSymb (Tape _ (r : _)) = r
+getSymb (Tape _ (r : _) _) = r
 
 writeSymb :: Tape -> Char -> Tape
-writeSymb (Tape ls (_ : rs)) symb = Tape ls (symb : rs)
+writeSymb (Tape ls (_ : rs) b) symb = Tape ls (symb : rs) b
