@@ -17,8 +17,8 @@ createTape word blank = Tape bs (word ++ bs) blank
     where
       bs = repeat blank
 
-getWord :: Tape -> Char -> String
-getWord (Tape ls rs b) s = reverse (takeWhile (/=b) ls ) ++ (takeWhile (/=b) rs)
+getWord :: Tape -> String
+getWord (Tape ls rs b) = reverse (takeWhile (/=b) ls ) ++ (takeWhile (/=b) rs)
 
 shift :: Tape -> Dir -> Tape
 shift tape Stay = tape
