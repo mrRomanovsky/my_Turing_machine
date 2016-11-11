@@ -17,10 +17,7 @@ getSymb (Tape _ (r : _)) = r
 writeSymb :: Tape -> Char -> Tape
 writeSymb (Tape ls (_ : rs)) symb = Tape ls (symb : rs)
 
-
-
-
-turingMachine :: Map.Map (Symbol, State) (Symbol, State, Shift) -> (Tape, State) -> Tape
+turingMachine :: Map.Map (Char, State) (Char, State, Shift) -> (Tape, State) -> Tape
 turingMachine program (tape,state) = fst $ last $ List.unfoldr foldFunc (tape, state)
     where
           foldFunc (tape, state) =
