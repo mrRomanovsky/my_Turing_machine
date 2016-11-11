@@ -2,23 +2,21 @@ import Data.Map as Map
 import Data.List as List
 
 data Tape = Tape String String
-
 data Dir = LeftSh | RightSh | Stay
-
 type Alphabet = Char
 type State = Int
 type Shift = Dir
 
 shift :: Tape -> Dir -> Tape
 shift tape Stay = tape
-shift (Tape leftPart (r : rs)) RightSh = Tape (r : leftPart) (rs)
-shift (Tape (l : ls) rightPart) LeftSh = Tape ls (l : rightPart)
+shift (Tape ls (r : rs)) RightSh = Tape (r : ls) rs
+shift (Tape (l : ls) rs) LeftSh = Tape ls (l : rs)
 
 getSymb :: Tape -> Char
-getSymb (Tape leftPart (r : rs)) = r
+getSymb (Tape _ (r : _)) = r
 
 writeSymb :: Tape -> Char -> Tape
-writeSymb (Tape leftPart (r : rs)) symb = Tape leftPart (symb : rs)
+writeSymb (Tape ls (_ : rs)) symb = Tape ls (symb : rs)
 
 
 turingMachine :: Map.Map (Alphabet, State) (Alphabet, State, Shift) -> (Tape, State) -> Tape
