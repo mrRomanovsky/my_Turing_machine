@@ -9,6 +9,7 @@ module Tape
 ,createTape)where
 
 data Dir = LeftSh | RightSh | Stay
+     deriving (Read)
 data Tape = Tape String String Char
 type State = Int
 

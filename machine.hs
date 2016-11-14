@@ -25,3 +25,11 @@ tests = getWord (turingMachine inc (t, 1)) == "234"
       t2 = Tape.createTape "321231" 's'
       t3 = Tape.createTape "abab" 's'
       t4 = Tape.createTape "aabaab" 's'
+
+mapFromStr :: [String] -> Map.Map (Char,State ) (Char, State, Dir)
+mapFromStr = Map.fromList . strToMap
+    where
+        strToMap =  List.foldr (\x acc -> toPair (List.words x) : acc) []
+        toPair (s : st : ns : nst : dr : xs) = ((head s, toState st) , (head ns, toState nst, toDir dr ))
+        toState st = read st :: State
+        toDir dr = read dr :: Dir
