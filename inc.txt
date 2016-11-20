@@ -1,0 +1,4 @@
+1 1 2 1 RightSh
+2 1 3 1 RightSh
+3 1 4 1 RightSh
+s 1 s 0 Stay
