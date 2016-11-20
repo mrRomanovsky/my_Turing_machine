@@ -45,10 +45,9 @@ main = do
   s <- getChar
   putStr "file :"
   file <- getLine
-  withFile file ReadMode (\ handle -> do
-    contents <- hGetContents handle
-    let
-      tape = turingMachine program (tapeWord, 1)
-      program = mapFromStr $ lines contents
-      tapeWord = createTape word s
-    putStr $ "word after using the Turing machine :" ++  getWord tape)
+  contents <- readFile file
+  let
+    tape = turingMachine program (tapeWord, 1)
+    program = mapFromStr $ lines contents
+    tapeWord = createTape word s
+  putStr $ "word after using the Turing machine :" ++  getWord tape
