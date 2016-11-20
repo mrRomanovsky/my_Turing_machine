@@ -1,6 +1,7 @@
 import Data.Map as Map
 import Data.List as List
 import Tape
+import System.IO
 
 turingMachine :: Map.Map (Char,State ) (Char, State, Dir) -> (Tape, State) -> Tape
 turingMachine program (tape,state) = fst $ last $ List.unfoldr foldFunc (tape, state)
@@ -33,3 +34,21 @@ mapFromStr = Map.fromList . strToMap
         toPair (s : st : ns : nst : dr : xs) = ((head s, toState st) , (head ns, toState nst, toDir dr ))
         toState st = read st :: State
         toDir dr = read dr :: Dir
+
+
+
+
+main = do
+  putStr "word :"
+  word <- getLine
+  putStr "empty symb :"
+  s <- getChar
+  putStr "file :"
+  file <- getLine
+  withFile file ReadMode (\ handle -> do
+    contents <- hGetContents handle
+    let
+      tape = turingMachine program (tapeWord, 1)
+      program = mapFromStr $ lines contents
+      tapeWord = createTape word s
+    putStr $ "word after using the Turing machine :" ++  getWord tape)
