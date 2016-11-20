@@ -46,4 +46,4 @@ main = do
     tape = turingMachine program (tapeWord, 1)
     program = mapFromStr $ lines contents
     tapeWord = createTape word $ head b
-  putStr $ "word after using the Turing machine :" ++  getWord tape
+  putStrLn $ "word after using the Turing machine :" ++  getWord tape
