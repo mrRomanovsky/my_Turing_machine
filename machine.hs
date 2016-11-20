@@ -2,6 +2,7 @@ import Data.Map as Map
 import Data.List as List
 import Tape
 import System.IO
+import System.Environment
 
 turingMachine :: Map.Map (Char,State ) (Char, State, Dir) -> (Tape, State) -> Tape
 turingMachine program (tape,state) = fst $ last $ List.unfoldr foldFunc (tape, state)
@@ -39,15 +40,10 @@ mapFromStr = Map.fromList . strToMap
 
 
 main = do
-  putStr "word :"
-  word <- getLine
-  putStr "empty symb :"
-  s <- getChar
-  putStr "file :"
-  file <- getLine
+  [word, b, file] <- getArgs
   contents <- readFile file
   let
     tape = turingMachine program (tapeWord, 1)
     program = mapFromStr $ lines contents
-    tapeWord = createTape word s
+    tapeWord = createTape word $ head b
   putStr $ "word after using the Turing machine :" ++  getWord tape
